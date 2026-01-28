@@ -1,0 +1,41 @@
+{
+  "name": "slcr",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@ducanh2912/next-pwa": "^10.2.9",
+    "@react-three/drei": "^10.7.6",
+    "@react-three/fiber": "^9.4.0",
+    "framer-motion": "^12.23.24",
+    "hls": "^0.0.1",
+    "hls.js": "^1.6.15",
+    "i": "^0.3.7",
+    "lucide-react": "^0.548.0",
+    "next": "^16.0.10",
+    "npm": "^11.6.2",
+    "postcss": "^8.5.6",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-hook-form": "^7.65.0",
+    "react-icons": "^5.5.0",
+    "swiper": "^12.0.3",
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.16",
+    "@types/next-pwa": "^5.6.9",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "^0.180.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.0",
+    "tailwindcss": "^4.1.16",
+    "typescript": "^5"
+  }
+}
