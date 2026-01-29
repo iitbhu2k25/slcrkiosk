@@ -4,169 +4,174 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import Hls from 'hls.js';
+import YouTube, { YouTubeEvent, YouTubeProps } from 'react-youtube';
 
-interface ScreensaverProps {
-    idleTimeout?: number; // in milliseconds
-}
-
+// --- PLAYLIST CONFIGURATION ---
 const PLAYLIST = [
-    '/Videos/slcr/master.m3u8',
-    '/Videos/anthem/master.m3u8',
-    '/Videos/film/master.m3u8',
-    '/Videos/nat_geo/master.m3u8',
-    '/Videos/achievement/master.m3u8',
+    { type: 'local', src: '/Videos/slcr/master.m3u8' }, 
+    { type: 'youtube', id: 'XdFD4Yjqzzk' }, 
+    { type: 'youtube', id: 'gQc58vGHlvs' }, 
+    { type: 'youtube', id: 'Q0gYQrebGwY' }, 
+    { type: 'youtube', id: '7rC_0x_2CNA' }, 
 ];
 
-export default function Screensaver({ idleTimeout = 30000 }: ScreensaverProps) {
-    const [isActive, setIsActive] = useState(false);
-    const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-    
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+interface ScreensaverProps {
+    idleTimeout?: number;
+}
+
+// --- COMPONENT: LOCAL PLAYER ---
+const LocalPlayer = ({ src, onEnded }: { src: string; onEnded: () => void }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const hlsRef = useRef<Hls | null>(null);
 
-    // --- FIX 1: MOVE THIS TO THE TOP ---
-    // This must be defined BEFORE startVideo tries to use it.
-    const handleVideoEnd = useCallback(() => {
-        console.log("Video ended. Switching to next...");
-        setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % PLAYLIST.length);
-    }, []);
-
-    const stopVideo = useCallback(() => {
-        if (videoRef.current) {
-            videoRef.current.pause();
-            videoRef.current.volume = 0;
-            videoRef.current.muted = true;
-            videoRef.current.currentTime = 0;
-            videoRef.current.removeAttribute('src'); 
-            videoRef.current.load();
-        }
-        if (hlsRef.current) {
-            hlsRef.current.destroy();
-            hlsRef.current = null;
-        }
-    }, []);
-
-    const startVideo = useCallback(() => {
+    useEffect(() => {
         const video = videoRef.current;
-        if (!video) {
-            console.error('Video element not found');
-            return;
-        }
+        if (!video) return;
 
-        const currentSrc = PLAYLIST[currentVideoIndex];
-        console.log(`Starting playback for index ${currentVideoIndex}: ${currentSrc}`);
+        video.currentTime = 0;
+        video.volume = 1.0;
+        video.muted = false; 
 
-        // --- FIX 2: ROBUST PLAY FUNCTION ---
-        // This function tries to play with sound first.
-        // If the browser blocks it (NotAllowedError), it falls back to Muted.
-        const executePlay = async () => {
-            try {
-                // 1. Try to play with sound
-                video.volume = 1.0;
-                video.muted = false;
-                await video.play();
-                console.log("Playing with sound!");
-            } catch (error: any) {
-                // 2. Catch the "NotAllowedError" (Browser blocked sound)
-                if (error.name === 'NotAllowedError') {
-                    console.warn("Autoplay with sound blocked. Falling back to MUTED.");
-                    video.muted = true;
-                    try {
-                        await video.play(); // Play muted so video doesn't freeze
-                    } catch (mutedError) {
-                        console.error("Even muted playback failed:", mutedError);
+        const handlePlay = () => {
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    if (error.name === 'NotAllowedError') {
+                        console.warn("Local Autoplay blocked. Muting...");
+                        video.muted = true;
+                        video.play().catch(e => console.error(e));
                     }
-                } else if (error.name !== 'AbortError') {
-                    // Ignore AbortError (happens if you skip videos fast), log others
-                    console.error("Playback error:", error);
-                }
+                });
             }
         };
 
         if (Hls.isSupported()) {
             if (hlsRef.current) hlsRef.current.destroy();
-
             const hls = new Hls({ enableWorker: true, lowLatencyMode: false });
             hlsRef.current = hls;
-            
-            hls.loadSource(currentSrc);
+            hls.loadSource(src);
             hls.attachMedia(video);
-
-            hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                executePlay();
-            });
-
-            hls.on(Hls.Events.ERROR, (event, data) => {
-                if (data.fatal) {
-                    console.log('HLS Error, skipping video');
-                    handleVideoEnd();
-                }
-            });
-        } 
-        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = currentSrc;
-            executePlay();
+            hls.on(Hls.Events.MANIFEST_PARSED, handlePlay);
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = src;
+            handlePlay();
         }
-    }, [currentVideoIndex, handleVideoEnd]);
 
-    // --- TIMERS & ACTIVITY HANDLERS ---
+        return () => {
+            if (hlsRef.current) hlsRef.current.destroy();
+        };
+    }, [src]);
+
+    return (
+        <video
+            ref={videoRef}
+            className="w-full h-full object-cover"
+            playsInline
+            onEnded={onEnded}
+        />
+    );
+};
+
+// --- COMPONENT: YOUTUBE PLAYER (UPDATED) ---
+const YouTubePlayer = ({ videoId, onEnded }: { videoId: string; onEnded: () => void }) => {
+    
+    // 1. Prepare: Start MUTED to guarantee autoplay works
+    const onReady = (event: YouTubeEvent) => {
+        const player = event.target;
+        player.mute(); // Mute strictly
+        player.setPlaybackQuality('hd1080');
+        player.playVideo(); // Play (Browser allows this because it's muted)
+    };
+
+    // 2. The Trick: Try to Unmute once it starts playing
+    const onStateChange = (event: YouTubeEvent) => {
+        // State 1 = Playing
+        if (event.data === 1) {
+            const player = event.target;
+            
+            // Try to unmute after a tiny delay
+            setTimeout(() => {
+                if (player.isMuted()) {
+                    player.unMute();
+                    player.setVolume(100);
+                }
+            }, 500);
+        }
+        // State 0 = Ended
+        if (event.data === 0) {
+            onEnded();
+        }
+    };
+
+    const onError = (event: YouTubeEvent) => {
+        console.error("YouTube Error:", event.data);
+        onEnded(); 
+    };
+
+    return (
+        <div className="w-full h-full pointer-events-none">
+            <div className="absolute inset-0 z-50 bg-transparent" />
+            <YouTube
+                videoId={videoId}
+                onReady={onReady}
+                onStateChange={onStateChange}
+                onError={onError}
+                className="w-full h-full"
+                iframeClassName="w-full h-full object-cover"
+                opts={{
+                    height: '100%',
+                    width: '100%',
+                    playerVars: {
+                        autoplay: 1,      // Request autoplay
+                        mute: 1,          // FORCE MUTE initially (Crucial fix)
+                        controls: 0,
+                        modestbranding: 1,
+                        rel: 0,
+                        showinfo: 0,
+                        origin: typeof window !== 'undefined' ? window.location.origin : undefined,
+                    },
+                }}
+            />
+        </div>
+    );
+};
+
+// --- MAIN SCREENSAVER COMPONENT ---
+export default function Screensaver({ idleTimeout = 30000 }: ScreensaverProps) {
+    const [isActive, setIsActive] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    const handleNext = useCallback(() => {
+        setCurrentIndex((prev) => (prev + 1) % PLAYLIST.length);
+    }, []);
 
     const resetTimer = useCallback(() => {
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-        }
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
         setIsActive(false);
-        timeoutRef.current = setTimeout(() => {
-            setIsActive(true);
-        }, idleTimeout);
+        timeoutRef.current = setTimeout(() => setIsActive(true), idleTimeout);
     }, [idleTimeout]);
 
-    const handleActivity = useCallback(() => {
-        resetTimer();
-    }, [resetTimer]);
-
-    const dismissScreensaver = useCallback(() => {
-        if (isActive) {
-            stopVideo();
-            setIsActive(false);
-            resetTimer();
-        }
-    }, [isActive, resetTimer, stopVideo]);
+    const handleActivity = useCallback(() => resetTimer(), [resetTimer]);
 
     useEffect(() => {
         resetTimer();
         const events = ['mousedown', 'mousemove', 'keydown', 'touchstart', 'scroll', 'click'];
-        events.forEach((event) => window.addEventListener(event, handleActivity));
-
+        events.forEach((e) => window.addEventListener(e, handleActivity));
         return () => {
             if (timeoutRef.current) clearTimeout(timeoutRef.current);
-            events.forEach((event) => window.removeEventListener(event, handleActivity));
+            events.forEach((e) => window.removeEventListener(e, handleActivity));
         };
     }, [handleActivity, resetTimer]);
 
-    const wasActiveRef = useRef(false);
-
     useEffect(() => {
-        if (!isActive) {
-            if (wasActiveRef.current) {
-                stopVideo();
-            }
-            wasActiveRef.current = false;
-            return;
-        }
+        if (isActive) setCurrentIndex(0);
+    }, [isActive]);
 
-        wasActiveRef.current = true;
-
-        const initTimeout = setTimeout(() => {
-            startVideo();
-        }, 300);
-
-        return () => {
-            clearTimeout(initTimeout);
-            stopVideo();
-        };
-    }, [isActive, currentVideoIndex, stopVideo, startVideo]);
+    const dismissScreensaver = useCallback(() => {
+        setIsActive(false);
+        resetTimer();
+    }, [resetTimer]);
 
     return (
         <AnimatePresence>
@@ -209,6 +214,8 @@ export default function Screensaver({ idleTimeout = 30000 }: ScreensaverProps) {
 
                     {/* Main Content */}
                     <div className="relative z-10 h-full flex flex-col items-center justify-start pt-8 px-4">
+                        
+                        {/* Header */}
                         <motion.div
                             initial={{ y: -50, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
@@ -236,20 +243,25 @@ export default function Screensaver({ idleTimeout = 30000 }: ScreensaverProps) {
                             </div>
                         </motion.div>
 
-                        {/* Video Player */}
+                        {/* Video Card */}
                         <motion.div
                             initial={{ y: 50, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.4, duration: 0.6 }}
                             className="w-full max-w-5xl mt-4"
                         >
-                            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20">
-                                <video
-                                    ref={videoRef}
-                                    className="w-full h-full object-cover"
-                                    playsInline
-                                    onEnded={handleVideoEnd}
-                                />
+                            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 bg-black">
+                                {PLAYLIST[currentIndex].type === 'local' ? (
+                                    <LocalPlayer 
+                                        src={PLAYLIST[currentIndex].src!} 
+                                        onEnded={handleNext} 
+                                    />
+                                ) : (
+                                    <YouTubePlayer 
+                                        videoId={PLAYLIST[currentIndex].id!} 
+                                        onEnded={handleNext} 
+                                    />
+                                )}
                                 <div className="absolute inset-0 pointer-events-none">
                                     <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-black/30 to-transparent" />
                                     <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/30 to-transparent" />
@@ -257,6 +269,7 @@ export default function Screensaver({ idleTimeout = 30000 }: ScreensaverProps) {
                             </div>
                         </motion.div>
 
+                        {/* Footer Logos */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
