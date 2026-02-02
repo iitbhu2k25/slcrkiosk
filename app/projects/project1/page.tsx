@@ -16,7 +16,7 @@ const teamMembers = {
     {
       name: "Prof. Pramod Soni",
       designation: "Assistant Professor, Dept. of Civil Engg., IIT (BHU), Varanasi",
-      role: "Co-Principal Investigator",
+      role: "Principal Investigator",
       image: "/project_images/DSS/Picture2.jpg",
     },
     {
