@@ -28,10 +28,10 @@ const sections = [
         gradient: 'from-emerald-600 to-teal-600',
     },
     {
-        title: 'Quiz',
-        description: 'Test your knowledge',
-        icon: HelpCircle,
-        href: '/ganga/quiz',
+        title: 'Quiz Leaderboard',
+        description: 'Check your rank',
+        icon: BarChart3,
+        href: 'https://quiz-app-beta-wheat-85.vercel.app/leaderboard',
         gradient: 'from-purple-600 to-pink-600',
     },
 ];
