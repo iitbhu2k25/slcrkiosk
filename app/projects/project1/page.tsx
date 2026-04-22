@@ -11,7 +11,7 @@ const teamMembers = {
       name: "Prof. Anurag Ohri",
       designation: "Professor, Dept. of Civil Engg., IIT (BHU), Varanasi",
       role: "Principal Investigator",
-      image: "/project_images/DSS/aos.jpg",
+      image: "/project_images/DSS/aos3.jpg",
     },
     {
       name: "Prof. Pramod Soni",
@@ -19,12 +19,12 @@ const teamMembers = {
       role: "Principal Investigator",
       image: "/project_images/DSS/Picture2.jpg",
     },
-    {
-      name: "Prof. Shishir Gaur",
-      designation: "Assistant Professor, Dept. of Civil Engg., IIT (BHU), Varanasi",
-      role: "Coordinator",
-      image: "/project_images/DSS/sgsir.png",
-    },
+    // {
+    //   name: "Prof. Shishir Gaur",
+    //   designation: "Assistant Professor, Dept. of Civil Engg., IIT (BHU), Varanasi",
+    //   role: "Coordinator",
+    //   image: "/project_images/DSS/sgsir.png",
+    // },
   ],
   researchTeam: [
     {
@@ -222,7 +222,7 @@ export default function DSS() {
       </section>
 
       {/* Progress Report Section */}
-      <section className="py-12 sm:py-16 px-4 bg-gray-50">
+      {/* <section className="py-12 sm:py-16 px-4 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -246,7 +246,7 @@ export default function DSS() {
             </div>
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
       {/* Team DSS Section */}
       <section className="py-12 sm:py-16 px-4 bg-white">

@@ -14,17 +14,10 @@ const sections = [
         gradient: 'from-blue-600 to-cyan-600',
     },
     {
-        title: 'Water Quality',
-        description: 'PIB & monitoring reports',
-        icon: Droplets,
-        href: '/ganga/water-quality',
-        gradient: 'from-cyan-600 to-blue-600',
-    },
-    {
-        title: 'Reports',
-        description: 'Official documents',
-        icon: FileText,
-        href: '/ganga/reports',
+        title: 'Ganga Quiz',
+        description: 'Test your knowledge',
+        icon: HelpCircle,
+        href: 'https://kisokslcr-quiz.vercel.app/',
         gradient: 'from-emerald-600 to-teal-600',
     },
     {
@@ -134,14 +127,29 @@ export default function GangaPage() {
                            
                         </p>
 
-                        <div className="grid md:grid-cols-2 gap-8">
-                            {sections.map((section, index) => (
-                                <KioskCard
-                                    key={section.title}
-                                    {...section}
-                                    delay={0.6 + index * 0.1}
-                                />
-                            ))}
+                        <div className="flex flex-col gap-8 max-w-4xl mx-auto">
+                            {/* Top row */}
+                            <div className="grid md:grid-cols-2 gap-8">
+                                {sections.slice(0, 2).map((section, index) => (
+                                    <KioskCard
+                                        key={section.title}
+                                        {...section}
+                                        delay={0.6 + index * 0.1}
+                                    />
+                                ))}
+                            </div>
+                            
+                            {/* Bottom row centered */}
+                            <div className="flex justify-center">
+                                {sections.slice(2).map((section, index) => (
+                                    <div key={section.title} className="w-full md:w-[calc(50%-1rem)]">
+                                        <KioskCard
+                                            {...section}
+                                            delay={0.6 + (index + 2) * 0.1}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </section>

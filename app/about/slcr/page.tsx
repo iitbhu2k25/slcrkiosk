@@ -67,7 +67,7 @@ export default function AboutSLCRPage() {
               </h2>
               <div className="flex justify-center mb-16">
                 <Image
-                  src="/about/lab_component.png"
+                  src="/about/lab_component2.png"
                   alt="Concept of SLCR Components"
                   width={1000}
                   height={600}
@@ -76,7 +76,7 @@ export default function AboutSLCRPage() {
               </div>
 
               {/* Hybrid Lab Detail Section */}
-              <div className="grid md:grid-cols-2 gap-8 items-center mb-16">
+              {/* <div className="grid md:grid-cols-2 gap-8 items-center mb-16">
                 <div className="text-gray-700 leading-relaxed text-justify space-y-4">
                   <p>
                     SLCR is more than a laboratory; it is an ecosystem of learning, engagement, co-creation, and experimentation in the real environment. SLCR consists of two major components:
@@ -97,13 +97,13 @@ export default function AboutSLCRPage() {
                     className="w-full h-auto rounded-xl shadow-md"
                   />
                 </div>
-              </div>
+              </div> */}
 
               {/* Structure Section */}
-              <h2 className="flex justify-center text-2xl md:text-3xl font-bold text-primary mb-8">Structure of SLCR</h2>
+              {/* <h2 className="flex justify-center text-2xl md:text-3xl font-bold text-primary mb-8">Structure of SLCR</h2> */}
 
               {/* Partnership Image + Structure Image side by side */}
-              <div className="grid md:grid-cols-2 gap-8 items-center mb-12">
+              {/* <div className="grid md:grid-cols-2 gap-8 items-center mb-12">
                 <div className="relative h-full min-h-[400px] w-full rounded-xl overflow-hidden shadow-lg bg-white p-2 border border-gray-100">
                   <Image
                     src="/about/partnership2.jpg"
@@ -121,11 +121,11 @@ export default function AboutSLCRPage() {
                     className="w-full h-auto rounded-xl shadow-lg border border-gray-100"
                   />
                 </div>
-              </div>
+              </div> */}
 
               {/* JSC, PRC, MSWG Cards below */}
-              <div className="space-y-4 mb-8">
-                {/* JSC and PRC side by side */}
+              {/* <div className="space-y-4 mb-8">
+              
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="p-4 rounded-xl bg-blue-50/50 border-l-4 border-primary shadow-sm hover:shadow-md transition-shadow">
                     <h3 className="text-lg font-bold text-primary mb-2">Joint Steering Committee</h3>
@@ -140,14 +140,14 @@ export default function AboutSLCRPage() {
                     </p>
                   </div>
                 </div>
-                {/* MSWG full width */}
+           
                 <div className="p-4 rounded-xl bg-teal-50/50 border-l-4 border-teal-500 shadow-sm hover:shadow-md transition-shadow">
                   <h3 className="text-lg font-bold text-teal-700 mb-2">The Multi Stakeholder Working Group</h3>
                   <p className="text-gray-700 text-xs leading-relaxed text-justify">
                     It is the platform to bring the different Central and State Government agencies, Urban Local Bodies (ULBs), District Administrations and state and central missions that are relevant for the Varuna. Share the challenges in their respective areas to SLCR. Inform the ongoing activities in their respective areas to SLCR. Establish synergy and convergence with the other schemes/initiatives. Give strategic inputs if any during framing of the individual projects to SLCR.
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </motion.div>
         </div>

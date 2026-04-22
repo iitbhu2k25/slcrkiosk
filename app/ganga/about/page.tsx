@@ -5,10 +5,10 @@ import { motion } from 'framer-motion';
 
 const images = [
     { name: 'pic1.png', alt: 'NMCG Picture 1' },
-    { name: 'pic2.png', alt: 'NMCG Picture 2' },
-    { name: 'pic3.png', alt: 'NMCG Picture 3' },
+    { name: 'pic21.png', alt: 'NMCG Picture 2' },
+    // { name: 'pic3.png', alt: 'NMCG Picture 3' },
     { name: 'pic4.png', alt: 'NMCG Picture 4' },
-    { name: 'pic5.png', alt: 'NMCG Picture 5' },
+    // { name: 'pic5.png', alt: 'NMCG Picture 5' },
     { name: 'pic6.png', alt: 'NMCG Picture 6' },
     { name: 'pic7.png', alt: 'NMCG Picture 7' },
     { name: 'pic8.png', alt: 'NMCG Picture 8' },

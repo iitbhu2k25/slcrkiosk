@@ -1,11 +1,97 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
 
-// Gallery sections with their images from folders
 const gallerySections = [
+  {
+    id: 'events',
+    title: 'Events',
+    description: 'Workshops, conferences and activities',
+    images: [
+      '/gallery/Events/pic2.jpg',
+      '/gallery/Events/pic10.jpeg',
+      '/gallery/Events/pic11.jpeg',
+      '/gallery/Events/pic1.jpg',
+      '/gallery/Events/pic3.png',
+      '/gallery/Events/pic4.jpg',
+      '/gallery/Events/pic5.jpg',
+      '/gallery/Events/pic6.jpg',
+      '/gallery/Events/Picture8.jpg',
+      '/gallery/Events/Picture1.jpg',
+      '/gallery/Events/Picture3.jpg',
+      '/gallery/Events/pic7.jpg',
+      '/gallery/Events/pic8.jpg',
+      '/gallery/Events/pic9.jpg',
+    ],
+    coverImage: '/gallery/Events/pic2.jpg',
+  },
+  {
+    id: 'site-visits',
+    title: 'Site Visits',
+    description: 'Field surveys and site investigations',
+    images: [
+      '/gallery/site_visits/image2.jpg',
+      '/gallery/site_visits/visit1.avif',
+      '/gallery/site_visits/visit2.avif',
+      '/gallery/site_visits/BLW_STP.jpeg',
+      '/gallery/site_visits/VARUNAPUL_NADESAR.jpeg',
+      '/gallery/site_visits/new.avif',
+    ],
+    coverImage: '/gallery/site_visits/image2.jpg',
+  },
+  
+  {
+    id: 'visitors',
+    title: 'Visitors',
+    description: 'Distinguished visitors and collaborators',
+    images: [
+      '/gallery/visitors/Picture5.jpg',
+      // '/gallery/visitors/Mr_Dheeraj_Joshi_Director_NMCG.png',
+      // '/gallery/visitors/pic1.png',
+      '/gallery/visitors/ISRO_MEMBERS.png', 
+      '/gallery/Events/pic7.jpg',
+      
+    ],
+    coverImage: '/gallery/visitors/Picture5.jpg',
+  },
+  {
+    id: 'field_work',
+    title: 'Field work',
+    description: 'Data sampling and collection',
+    images: [
+      // '/gallery/field_work/new1.jpg',
+      // '/gallery/field_work/new2.jpg',
+      '/gallery/field_work/new3.jpg',
+      '/gallery/field_work/slcr18.jpg',
+      '/gallery/field_work/Picture1.jpg',
+      '/gallery/field_work/new6.jpeg',
+      '/gallery/field_work/Picture3.jpeg',
+      '/gallery/field_work/Picture5.jpg',
+      '/gallery/field_work/Picture6.jpg',
+      '/gallery/field_work/Picture7.jpeg',
+      '/gallery/field_work/Picture8.jpg',
+      '/gallery/field_work/slcr14.jpg',
+      '/gallery/field_work/slcr10.jpg',
+      '/gallery/field_work/Picture2.jpg',
+      
+      '/gallery/field_work/new.avif',
+    ],
+    coverImage: '/gallery/field_work/new.avif',
+  },
+  {
+    id: 'outreach',
+    title: 'SLCR outreach',
+    description: 'Official meetings and reviews',
+    images: [
+      '/gallery/outreach/1.jpeg',
+       '/gallery/outreach/2.jpeg',
+       '/gallery/outreach/3.avif',
+    ],
+    coverImage: '/gallery/outreach/1.jpeg',
+  },
   {
     id: 'ganga',
     title: 'Ganga at Varanasi',
@@ -44,329 +130,246 @@ const gallerySections = [
     ],
     coverImage: '/gallery/Assi/assi3.png',
   },
-  {
-    id: 'site-visits',
-    title: 'Site Visits',
-    description: 'Field surveys and site investigations',
-    images: [
-      '/gallery/site_visits/image2.jpg',
-      '/gallery/site_visits/visit1.avif',
-      '/gallery/site_visits/visit2.avif',
-      '/gallery/site_visits/BLW_STP.jpeg',
-      '/gallery/site_visits/VARUNAPUL_NADESAR.jpeg',
-      '/gallery/site_visits/new.avif',
-    ],
-    coverImage: '/gallery/site_visits/image2.jpg',
-  },
-  {
-    id: 'events',
-    title: 'Events',
-    description: 'Workshops, conferences and activities',
-    images: [
-      '/gallery/Events/pic2.jpg',
-      '/gallery/Events/pic1.jpg',
-      '/gallery/Events/pic3.png',
-      '/gallery/Events/pic4.jpg',
-      '/gallery/Events/pic5.jpg',
-      '/gallery/Events/pic6.jpg',
-      '/gallery/Events/pic7.jpg',
-      '/gallery/Events/pic8.jpg',
-      '/gallery/Events/pic9.jpg',
-    ],
-    coverImage: '/gallery/Events/pic2.jpg',
-  },
-  {
-    id: 'visitors',
-    title: 'Visitors',
-    description: 'Distinguished visitors and collaborators',
-    images: [
-      '/gallery/visitors/Mr_Dheeraj_Joshi_Director_NMCG.png',
-      '/gallery/visitors/pic1.png',
-      '/gallery/visitors/ISRO_MEMBERS.png',
-      
-      
-    ],
-    coverImage: '/gallery/visitors/Mr_Dheeraj_Joshi_Director_NMCG.png',
-  },
-  {
-    id: 'field_work',
-    title: 'Field work',
-    description: 'Data sampling and collection',
-    images: [
-      '/gallery/field_work/new1.jpg',
-      '/gallery/field_work/new2.jpg',
-      '/gallery/field_work/new3.jpg',
-      '/gallery/field_work/new4.jpg',
-      '/gallery/field_work/new5.jpg',
-      '/gallery/field_work/Picture1.jpg',
-      '/gallery/field_work/Picture2.jpg',
-      '/gallery/field_work/Picture3.jpeg',
-      '/gallery/field_work/Picture5.jpg',
-      '/gallery/field_work/Picture6.jpg',
-      '/gallery/field_work/Picture7.jpeg',
-      '/gallery/field_work/Picture8.jpg',
-      '/gallery/field_work/slcr14.jpg',
-      '/gallery/field_work/slcr10.jpg',
-      '/gallery/field_work/slcr18.jpg',
-      '/gallery/field_work/new.avif',
-    ],
-    coverImage: '/gallery/field_work/new.avif',
-  },
 ];
-
-// Main viewer component for active section
-function MainViewer({
-  section
-}: {
-  section: typeof gallerySections[0];
-}) {
-  const [isPaused, setIsPaused] = useState(false);
-  const [localIndex, setLocalIndex] = useState(0);
-
-  useEffect(() => {
-    setLocalIndex(0);
-  }, [section.id]);
-
-  useEffect(() => {
-    if (isPaused) return;
-
-    const interval = setInterval(() => {
-      setLocalIndex((prev) => (prev + 1) % section.images.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [isPaused, section.images.length, section.id]);
-
-  return (
-    <div
-      className="bg-white rounded-2xl shadow-xl overflow-hidden"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-400 to-blue-400 px-6 py-4 flex items-center justify-between">
-        <div>
-          <h3 className="text-white font-bold text-xl">{section.title}</h3>
-          <p className="text-white/70 text-sm">{section.description}</p>
-        </div>
-        <div className="text-yellow-400 text-sm font-medium">
-          {isPaused && <span className="ml-2"> Paused</span>}
-        </div>
-      </div>
-
-      {/* Main Image */}
-      <div className="relative aspect-[16/9] bg-gray-100">
-        <Image
-          src={section.images[localIndex]}
-          alt={`${section.title} - Image ${localIndex + 1}`}
-          fill
-          className="object-contain"
-          quality={100}
-        />
-      </div>
-
-      {/* Thumbnails Row */}
-      <div className="p-4 bg-gray-50 border-t">
-        <div className="flex gap-2 overflow-x-auto pb-2">
-          {section.images.map((img, idx) => (
-            <button
-              key={idx}
-              onClick={() => setLocalIndex(idx)}
-              className={`flex-shrink-0 w-20 h-14 rounded-lg overflow-hidden border-2 transition-all ${idx === localIndex
-                  ? 'border-primary ring-2 ring-primary/30'
-                  : 'border-gray-200 hover:border-gray-400'
-                }`}
-            >
-              <Image
-                src={img}
-                alt={`Thumbnail ${idx + 1}`}
-                width={80}
-                height={56}
-                className="w-full h-full object-cover"
-              />
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function MediaGalleryPage() {
   const [activeSection, setActiveSection] = useState<string>(gallerySections[0].id);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const activeSectionData = gallerySections.find(s => s.id === activeSection) || gallerySections[0];
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      
-      {/* Main Content with Integrated Header */}
-      <section className="py-10 sm:py-16 px-3 sm:px-4 bg-white">
-        <div className="max-w-5xl mx-auto">
-          
-          {/* --- INTEGRATED HEADER (TEXT STYLE) --- */}
-          <div className="text-center mb-12">
-            <motion.h1 
-               initial={{ opacity: 0, y: -20 }}
-               animate={{ opacity: 1, y: 0 }}
-               className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#003366] uppercase leading-tight mb-3"
-            >
-              The SLCR Gallery: An Initiative of <br className="hidden md:block"/>
-              Smart Laboratory on Clean Rivers (SLCR), IIT BHU Varanasi
-            </motion.h1>
-            <motion.p 
-               initial={{ opacity: 0 }}
-               animate={{ opacity: 1 }}
-               transition={{ delay: 0.2 }}
-               className="text-lg md:text-xl text-gray-500 italic font-medium"
-            >
-              A gallery for public awareness, conservation and restoration of the river
-            </motion.p>
-          </div>
+  const openLightbox = (index: number) => {
+    setCurrentImageIndex(index);
+    setLightboxOpen(true);
+  };
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="prose prose-lg max-w-none"
-          >
-            {/* Image floated to the right */}
-            <div className="float-right ml-6 mb-4 w-full sm:w-[350px] md:w-[400px] not-prose">
-              <div className="rounded-lg overflow-hidden shadow-lg border border-gray-100">
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+  };
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => 
+      prev === activeSectionData.images.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => 
+      prev === 0 ? activeSectionData.images.length - 1 : prev - 1
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-gray-50">
+      
+      <div className="w-[90%] mx-auto pt-6 pb-8">
+      
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-12"
+        >
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-8 gap-3">
+            {gallerySections.map((section, index) => (
+              <motion.button
+                key={section.id}
+                onClick={() => setActiveSection(section.id)}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                whileHover={{ y: -4 }}
+                className={`group relative overflow-hidden rounded-xl transition-all duration-300 ${
+                  activeSection === section.id
+                    ? 'ring-3 ring-[#003366] ring-offset-2 shadow-2xl'
+                    : 'shadow-md hover:shadow-xl'
+                }`}
+              >
+                <div className="aspect-[4/2.5] relative">
+                  <Image
+                    src={section.coverImage}
+                    alt={section.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className={`absolute inset-0 transition-all duration-300 ${
+                    activeSection === section.id
+                      ? 'bg-gradient-to-t from-[#003366]/90 via-[#003366]/50 to-transparent'
+                      : 'bg-gradient-to-t from-black/70 via-black/30 to-transparent group-hover:from-[#003366]/80 group-hover:via-[#003366]/40'
+                  }`} />
+                  <div className="absolute inset-0 flex flex-col justify-end p-2">
+                    <h3 className="text-white font-bold text-xs md:text-sm leading-tight">
+                      {section.title}
+                    </h3>
+                    <p className="text-white/90 text-[10px] mt-0.5 line-clamp-2 hidden sm:block">
+                      {section.description}
+                    </p>
+                  </div>
+                  {activeSection === section.id && (
+                    <motion.div
+                      layoutId="activeIndicator"
+                      className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-lg"
+                    >
+                      <div className="w-1.5 h-1.5 bg-[#003366] rounded-full" />
+                    </motion.div>
+                  )}
+                </div>
+              </motion.button>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Section Header */}
+        <motion.div
+          key={activeSection}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="mb-8 flex items-center justify-between"
+        >
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-[#003366] mb-2">
+              {activeSectionData.title}
+            </h2>
+            <p className="text-gray-600 text-lg flex items-center gap-2">
+              <span className="bg-[#f08c3a] text-white px-2 py-0.5 rounded shadow-sm">{activeSectionData.description}</span> 
+              <span className="text-gray-500">• {activeSectionData.images.length} photos</span>
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Image Grid - Larger Images with 3 columns */}
+        <motion.div 
+          layout
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          <AnimatePresence mode="popLayout">
+            {activeSectionData.images.map((img, idx) => (
+              <motion.div
+                key={`${activeSection}-${idx}`}
+                layout
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ 
+                  duration: 0.4, 
+                  delay: idx * 0.03,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                whileHover={{ y: -8 }}
+                className="group relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg bg-white cursor-pointer"
+                onClick={() => openLightbox(idx)}
+              >
                 <Image
-                  src="/gallery/main_page_gif.gif"
-                  alt="A view of the Ganga River in Varanasi"
-                  width={400}
-                  height={500}
-                  className="w-full h-auto object-contain"
-                  unoptimized
+                  src={img}
+                  alt={`${activeSectionData.title} ${idx + 1}`}
+                  fill
+                  className="object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-1"
+                />
+                
+                {/* Zoom Icon */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-black/20">
+                  <div className="bg-white/90 backdrop-blur-sm rounded-full p-4 transform scale-75 group-hover:scale-100 transition-transform">
+                    <ZoomIn className="w-10 h-10 text-[#003366]" />
+                  </div>
+                </div>
+
+                {/* Border Gradient Effect */}
+                <div className="absolute inset-0 rounded-2xl ring-2 ring-transparent group-hover:ring-[#003366]/30 transition-all duration-300" />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {lightboxOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/95 backdrop-blur-sm z-50 flex items-center justify-center"
+            onClick={closeLightbox}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeLightbox}
+              className="absolute top-6 right-6 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-full p-3 transition-all z-10 hover:rotate-90 duration-300"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Previous Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                prevImage();
+              }}
+              className="absolute left-6 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-full p-4 transition-all hover:scale-110 z-10"
+            >
+              <ChevronLeft className="w-8 h-8" />
+            </button>
+
+            {/* Image */}
+            <motion.div
+              key={currentImageIndex}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="relative max-w-7xl max-h-[85vh] w-full mx-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative w-full h-full flex items-center justify-center">
+                <Image
+                  src={activeSectionData.images[currentImageIndex]}
+                  alt={`${activeSectionData.title} ${currentImageIndex + 1}`}
+                  width={1920}
+                  height={1080}
+                  className="max-w-full max-h-[85vh] w-auto h-auto object-contain rounded-lg shadow-2xl"
                 />
               </div>
-              <p className="text-center text-sm text-gray-500 mt-2 italic">
-                A view of the Ganga River in Varanasi
-              </p>
-            </div>
+            </motion.div>
 
-            {/* Text content that wraps around the image */}
-            <p className="text-gray-700 leading-relaxed mb-6 text-justify first-letter:text-5xl first-letter:font-bold first-letter:text-primary first-letter:float-left first-letter:mr-3 first-letter:mt-1">
-              The Ganga River is the lifeline of India, flowing through the heart of the country and sustaining
-              millions of lives along its banks. Revered as a sacred river and a symbol of India&apos;s rich cultural
-              heritage, the Ganga faces unprecedented challenges from pollution, industrial effluents, and
-              urbanization. The Government of India, under the leadership of Hon&apos;ble Prime Minister Shri Narendra Modi,
-              has taken significant steps towards the rejuvenation of the Ganga through the Namami Gange Programme.
-            </p>
+            {/* Next Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                nextImage();
+              }}
+              className="absolute right-6 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white rounded-full p-4 transition-all hover:scale-110 z-10"
+            >
+              <ChevronRight className="w-8 h-8" />
+            </button>
 
-            <p className="text-gray-700 leading-relaxed mb-6 text-justify">
-              The <strong className="text-primary">Smart Laboratory on Clean Rivers (SLCR)</strong> initiative represents
-              a landmark collaboration between India and Denmark, conceptualized during the meeting between the Hon&apos;ble
-              Prime Minister of India and the Prime Minister of Denmark. This joint venture aims to develop innovative
-              solutions for river restoration through cutting-edge research, technology transfer, and capacity building.
-            </p>
-
-            <p className="text-gray-700 leading-relaxed mb-6 text-justify">
-              In the sacred city of <strong>Varanasi</strong>, the SLCR initiative takes special significance. The city,
-              also known as Kashi or Banaras, derives its very name from two rivers - the <strong className="text-primary">Varuna</strong> in
-              the north and the <strong className="text-primary">Assi</strong> in the south, both tributaries of the Ganga. The Varuna River,
-              in particular, has been a focus of restoration efforts as it flows into the holy Ganga at the northern
-              boundary of the city.
-            </p>
-
-            <p className="text-gray-700 leading-relaxed mb-6 text-justify">
-              Unlike the main Ganges stream, the Varuna has suffered from reduced flow and heavy encroachment.
-              The water, which should be a lifeline for the northern districts, often stagnates. A lack of
-              dissolved oxygen promotes the growth of anaerobic bacteria, leading to foul odors and a decline
-              in aquatic life. The present situation reflects decades of indifference towards the environment.
-              The basin has been treated as a reservoir for dumping waste—plastic bags, industrial effluent
-              from small-scale dyeing units, and untreated sewage.
-            </p>
-
-            <p className="text-gray-700 leading-relaxed mb-6 text-justify">
-              Such exogenic activities have robbed the river of its pristine glory. Therefore, collective action
-              from all stakeholders—government, academia, and citizens—is needed to bring &quot;Varuna&quot; back to life.
-              <strong className="text-primary"> The Smart Laboratory on Clean River (SLCR) at IIT (BHU)</strong> has
-              made a remarkable effort by establishing this digital SLCR Gallery.
-            </p>
-
-            <p className="text-gray-700 leading-relaxed mb-6 text-justify">
-              The SLCR at IIT (BHU) Varanasi serves as a Living Laboratory where global knowledge meets local wisdom.
-              Through a multi-disciplinary approach involving hydrology, environmental science, social engagement, and
-              policy research, the laboratory works towards developing sustainable solutions for river rejuvenation.
-              The initiative brings together experts from Indian Institutes of Technology, Danish universities, and
-              various government bodies to create a collaborative platform for knowledge exchange.
-            </p>
-
-            <p className="text-gray-700 leading-relaxed text-justify">
-              This digital gallery serves as a window into the various activities, research initiatives, field work,
-              and events organized under the SLCR umbrella. Through these visual narratives, we aim to inspire
-              collective action and raise public awareness about the importance of river conservation for our
-              future generations.
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Interactive Gallery Section */}
-      <section className="py-10 sm:py-16 px-3 sm:px-4 bg-gray-100">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center mb-8"
-          >
-            <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-2">SLCR Gallery</h2>
-            <p className="text-gray-600">
-              Click on a category to view images. Hover to pause.
-            </p>
-          </motion.div>
-
-          {/* Category Selection - Single Row Above Viewer */}
-          <div className="mb-6">
-            <div className="flex flex-wrap justify-center gap-3">
-              {gallerySections.map((section, index) => (
-                <motion.button
-                  key={section.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 * index }}
-                  onClick={() => setActiveSection(section.id)}
-                  className={`relative rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 ${activeSection === section.id
-                      ? 'ring-3 ring-primary shadow-xl scale-105'
-                      : 'hover:scale-102'
-                    }`}
+            {/* Thumbnails */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 max-w-4xl overflow-x-auto px-4 py-2 bg-black/30 backdrop-blur-sm rounded-full z-10">
+              {activeSectionData.images.map((img, idx) => (
+                <button
+                  key={idx}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentImageIndex(idx);
+                  }}
+                  className={`relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 transition-all ${
+                    idx === currentImageIndex
+                      ? 'ring-4 ring-white scale-110'
+                      : 'opacity-50 hover:opacity-100 hover:scale-105'
+                  }`}
                 >
-                  <div className="w-28 sm:w-32 h-20 sm:h-24 relative">
-                    <Image
-                      src={section.coverImage}
-                      alt={section.title}
-                      fill
-                      className="object-cover"
-                    />
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-
-                    {/* Title */}
-                    <div className="absolute bottom-0 left-0 right-0 p-2">
-                      <h4 className="text-white font-semibold text-xs sm:text-sm drop-shadow-lg text-center leading-tight">
-                        {section.title}
-                      </h4>
-                    </div>
-
-                    {/* Active Indicator */}
-                    {activeSection === section.id && (
-                      <div className="absolute top-1 right-1 bg-primary text-white text-[10px] px-1.5 py-0.5 rounded font-bold">
-                        ●
-                      </div>
-                    )}
-                  </div>
-                </motion.button>
+                  <Image
+                    src={img}
+                    alt={`Thumbnail ${idx + 1}`}
+                    fill
+                    className="object-cover"
+                  />
+                </button>
               ))}
             </div>
-          </div>
-
-          {/* Main Viewer */}
-          <MainViewer section={activeSectionData} />
-        </div>
-      </section>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

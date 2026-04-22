@@ -202,7 +202,7 @@ export default function ProjectsPage() {
       </section>
 
       {/* Project Photos Gallery */}
-      <section className="py-10 bg-gray-50">
+      {/* <section className="py-10 bg-gray-50">
         <div className="w-full">
           <div className="flex">
             {[
@@ -236,7 +236,7 @@ export default function ProjectsPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

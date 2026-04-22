@@ -11,7 +11,13 @@ const teamMembers = {
             name: "Prof. Shishir Gaur",
             designation: "Professor, Dept. of Civil Engg., IIT (BHU), Varanasi",
             role: "Principal Investigator",
-            image: "/project_images/SECR/sgsir.png",
+            image: "/project_images/SECR/sgsir1.png",
+        },
+        {
+            name: "Prof. Harsimran Kaur",
+            designation: "Professor, Department of Architecture, Planning and Design, IIT(BHU)",
+            role: "Principal Investigator",
+            image: "/project_images/SECR/hk.jpg",
         },
         {
             name: "Prof. Anurag Ohri",

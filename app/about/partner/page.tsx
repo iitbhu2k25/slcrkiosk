@@ -25,7 +25,7 @@ export default function PartnerInstitutesPage() {
             {/* Partner logos */}
             <div className="flex justify-center">
               <img
-                src="/about/combined_logo.png"
+                src="/about/combined_logo1.png"
                 alt="Partner Institutes Combined Logo"
                 className="max-w-full h-auto object-contain"
               />

@@ -162,7 +162,7 @@ export default function HMVBProject() {
       </section>
 
       {/* Progress Report Section */}
-            <section className="py-12 sm:py-16 px-4 bg-gray-50">
+            {/* <section className="py-12 sm:py-16 px-4 bg-gray-50">
               <div className="max-w-6xl mx-auto">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -186,7 +186,7 @@ export default function HMVBProject() {
                   </div>
                 </motion.div>
               </div>
-            </section>
+            </section> */}
 
       {/* Team HMVB Section */}
       <section className="py-12 sm:py-16 px-4 bg-white">

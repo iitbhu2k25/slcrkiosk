@@ -7,8 +7,12 @@ import Hls from 'hls.js';
 import YouTube, { YouTubeEvent, YouTubeProps } from 'react-youtube';
 
 // --- PLAYLIST CONFIGURATION ---
-const PLAYLIST = [
-    { type: 'local', src: '/Videos/slcr/master.m3u8' }, 
+type PlaylistItem = 
+    | { type: 'local'; src: string; id?: never }
+    | { type: 'youtube'; id: string; src?: never };
+
+const PLAYLIST: PlaylistItem[] = [
+    // { type: 'local', src: '/Videos/slcr/master.m3u8' }, 
     { type: 'youtube', id: 'XdFD4Yjqzzk' }, 
     { type: 'youtube', id: 'gQc58vGHlvs' }, 
     { type: 'youtube', id: 'Q0gYQrebGwY' }, 
@@ -251,17 +255,20 @@ export default function Screensaver({ idleTimeout = 30000 }: ScreensaverProps) {
                             className="w-full max-w-5xl mt-4"
                         >
                             <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 bg-black">
-                                {PLAYLIST[currentIndex].type === 'local' ? (
-                                    <LocalPlayer 
-                                        src={PLAYLIST[currentIndex].src!} 
-                                        onEnded={handleNext} 
-                                    />
-                                ) : (
-                                    <YouTubePlayer 
-                                        videoId={PLAYLIST[currentIndex].id!} 
-                                        onEnded={handleNext} 
-                                    />
-                                )}
+                                {(() => {
+                                    const currentItem = PLAYLIST[currentIndex];
+                                    return currentItem.type === 'local' ? (
+                                        <LocalPlayer 
+                                            src={currentItem.src} 
+                                            onEnded={handleNext} 
+                                        />
+                                    ) : (
+                                        <YouTubePlayer 
+                                            videoId={currentItem.id} 
+                                            onEnded={handleNext} 
+                                        />
+                                    );
+                                })()}
                                 <div className="absolute inset-0 pointer-events-none">
                                     <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-black/30 to-transparent" />
                                     <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/30 to-transparent" />
