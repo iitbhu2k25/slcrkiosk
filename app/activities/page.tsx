@@ -335,7 +335,7 @@ export default function ActivitiesPage() {
           >
             <div className="rounded-2xl bg-white/95 backdrop-blur-sm p-8 md:p-10 shadow-2xl w-full">
               <h2 className="text-2xl md:text-3xl font-bold text-[#1a3c5e] mb-6 leading-snug">
-                Sewage Infrastructure for thr River Rejuvenation
+                Sewage Infrastructure for the River Rejuvenation
               </h2>
 
               <div className="space-y-5 text-[#2c3e50] text-base md:text-lg leading-relaxed text-justify mb-8">
