@@ -258,7 +258,7 @@ export default function DSS() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-3">Team DSS</h2>
-            <p className="text-gray-600">The experts driving innovation in water resource management</p>
+            {/* <p className="text-gray-600">The experts driving innovation in water resource management</p> */}
           </motion.div>
 
           {/* Principal Investigators - Centered */}
@@ -292,7 +292,7 @@ export default function DSS() {
           </div>
 
           {/* Research and Development Team - 6 per row */}
-          <div className="mb-12">
+          {/* <div className="mb-12">
             <h3 className="text-2xl font-bold text-primary mb-8 text-center">Research and Development Team</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
               {teamMembers.researchTeam.map((member, index) => (
@@ -319,10 +319,10 @@ export default function DSS() {
                 </motion.div>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Admin Section */}
-          <div className="mb-12">
+          {/* <div className="mb-12">
             <h3 className="text-2xl font-bold text-primary mb-8 text-center">Admin Team</h3>
             <div className="flex justify-center">
               {teamMembers.admin.map((member, index) => (
@@ -349,7 +349,7 @@ export default function DSS() {
                 </motion.div>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
     </main>

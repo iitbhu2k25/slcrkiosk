@@ -71,6 +71,7 @@ const LocalPlayer = ({ src, onEnded }: { src: string; onEnded: () => void }) => 
             ref={videoRef}
             className="w-full h-full object-cover"
             playsInline
+            loop
             onEnded={onEnded}
         />
     );

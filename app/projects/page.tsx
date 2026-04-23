@@ -32,7 +32,7 @@ const projects = [
   },
   {
     id: 'project4',
-    title: 'Establishment of Secretariat on SLCR',
+    title: 'Holistic River management and Establishment of Secretariat on SLCR',
     subtitle: '',
     description: 'Comprehensive assessment of river health indicators including biodiversity, water quality parameters, and sediment analysis. Development of nature-based solutions for sustainable river restoration.',
     image: '/project_images/new3.jpg',

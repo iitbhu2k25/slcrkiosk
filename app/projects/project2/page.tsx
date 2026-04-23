@@ -198,7 +198,7 @@ export default function HMVBProject() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-3">Team HMVB</h2>
-            <p className="text-gray-600">The experts driving hydrogeological research and innovation</p>
+            {/* <p className="text-gray-600">The experts driving hydrogeological research and innovation</p> */}
           </motion.div>
 
           {/* Principal Investigators - Centered */}
@@ -231,9 +231,9 @@ export default function HMVBProject() {
           </div>
 
           {/* Research and Development Team - Centered */}
-          <div className="mb-12">
+          {/* <div className="mb-12">
             <h3 className="text-2xl font-bold text-primary mb-8 text-center">Research and Development Team</h3>
-            {/* Changed to Flex for centering the 3 items */}
+            
             <div className="flex flex-wrap justify-center gap-6">
               {teamMembers.researchTeam.map((member, index) => (
                 <motion.div
@@ -259,7 +259,7 @@ export default function HMVBProject() {
                 </motion.div>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
     </main>

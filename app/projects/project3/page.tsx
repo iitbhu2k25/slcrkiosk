@@ -191,7 +191,7 @@ export default function EPFAProject() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-3">Team EPFA</h2>
-            <p className="text-gray-600">The team leading pollutant characterization research</p>
+            {/* <p className="text-gray-600">The team leading pollutant characterization research</p> */}
           </motion.div>
 
           {/* Principal Investigators - Centered */}
@@ -224,10 +224,9 @@ export default function EPFAProject() {
           </div>
 
           {/* Research Team - CENTERED */}
-          <div className="mb-12">
+          {/* <div className="mb-12">
             <h3 className="text-2xl font-bold text-primary mb-8 text-center">Research and Development Team</h3>
             
-            {/* Changed from Grid to Flex to enable centering */}
             <div className="flex flex-wrap justify-center gap-6">
               {teamMembers.researchTeam.map((member, index) => (
                 <motion.div
@@ -254,7 +253,7 @@ export default function EPFAProject() {
                 </motion.div>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
     </main>

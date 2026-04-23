@@ -8,22 +8,23 @@ import { ArrowRight } from 'lucide-react';
 const teamMembers = {
     principalInvestigators: [
         {
-            name: "Prof. Shishir Gaur",
-            designation: "Professor, Dept. of Civil Engg., IIT (BHU), Varanasi",
-            role: "Principal Investigator",
-            image: "/project_images/SECR/sgsir1.png",
-        },
-        {
             name: "Prof. Harsimran Kaur",
             designation: "Professor, Department of Architecture, Planning and Design, IIT(BHU)",
             role: "Principal Investigator",
             image: "/project_images/SECR/hk.jpg",
         },
         {
+            name: "Prof. Shishir Gaur",
+            designation: "Professor, Dept. of Civil Engg., IIT (BHU), Varanasi",
+            role: "Principal Investigator",
+            image: "/project_images/SECR/sgsir1.png",
+        },
+        
+        {
             name: "Prof. Anurag Ohri",
             designation: "Professor, Dept. of Civil Engg., IIT (BHU), Varanasi",
             role: "Co-Principal Investigator",
-            image: "/project_images/SECR/ao.jpg",
+            image: "/project_images/SECR/aos3.jpg",
         },
         
     ],
@@ -114,7 +115,7 @@ export default function SECRProject() {
                         className="mb-4"
                     >
                         <span className="inline-block text-teal-300 text-lg sm:text-xl font-medium tracking-widest uppercase">
-                            Project SLCR Secretariat
+                            Project Holistic River management and  SLCR Secretariat
                         </span>
                     </motion.div>
 
@@ -125,7 +126,7 @@ export default function SECRProject() {
                         className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-4 tracking-tight"
                     >
                         <span className="bg-gradient-to-r from-white via-green-100 to-teal-300 bg-clip-text text-transparent drop-shadow-2xl">
-                            Establishment of Secretariat
+                            Establishment of Secretariat and Holistic River management
                         </span>
                     </motion.h1>
 
@@ -246,6 +247,51 @@ export default function SECRProject() {
                 </div>
             </section>
 
+            {/* Holistic River Management Section */}
+            <section className="py-12 sm:py-16 px-4 bg-white">
+                <div className="max-w-6xl mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-8 text-center">Holistic River Management</h2>
+                        <div className="bg-gray-50 p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center gap-6">
+                            <div className="w-full rounded-xl overflow-hidden shadow-md">
+                                <Image
+                                    src="/project_images/SECR/holistic_1.png"
+                                    alt="Holistic River Management 1"
+                                    width={1200}
+                                    height={700}
+                                    quality={100}
+                                    className="w-full h-auto object-contain"
+                                />
+                            </div>
+                            <div className="w-full rounded-xl overflow-hidden shadow-md">
+                                <Image
+                                    src="/project_images/SECR/holistic_2.png"
+                                    alt="Holistic River Management 2"
+                                    width={1200}
+                                    height={700}
+                                    quality={100}
+                                    className="w-full h-auto object-contain"
+                                />
+                            </div>
+                            <div className="w-full rounded-xl overflow-hidden shadow-md">
+                                <Image
+                                    src="/project_images/SECR/holistic_3.png"
+                                    alt="Holistic River Management 3"
+                                    width={1200}
+                                    height={700}
+                                    quality={100}
+                                    className="w-full h-auto object-contain"
+                                />
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
+            </section>
+
             {/* Team SECR Section */}
             <section className="py-12 sm:py-16 px-4 bg-white">
                 <div className="max-w-7xl mx-auto">
@@ -255,8 +301,8 @@ export default function SECRProject() {
                         viewport={{ once: true }}
                         className="text-center mb-12"
                     >
-                        <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-3">Team SLCR Secretariat</h2>
-                        <p className="text-gray-600">The dedicated team driving the SLCR vision forward</p>
+                        <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-3">Team SLCR Secretariat and Holistic River management</h2>
+            
                     </motion.div>
 
                     {/* Principal Investigators - Centered */}
@@ -289,9 +335,9 @@ export default function SECRProject() {
                     </div>
 
                     {/* Research and Development Team - CENTERED */}
-                    <div className="mb-12">
+                    {/* <div className="mb-12">
                         <h3 className="text-2xl font-bold text-primary mb-8 text-center">Research and Development Team</h3>
-                        {/* Changed from Grid to Flex to enable centering of the last row */}
+                   
                         <div className="flex flex-wrap justify-center gap-5">
                             {teamMembers.researchTeam.map((member, index) => (
                                 <motion.div
@@ -318,10 +364,10 @@ export default function SECRProject() {
                                 </motion.div>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Admin Section */}
-                    <div className="mb-12">
+                    {/* <div className="mb-12">
                         <h3 className="text-2xl font-bold text-primary mb-8 text-center">Admin Team</h3>
                         <div className="flex justify-center">
                             {teamMembers.admin.map((member, index) => (
@@ -348,7 +394,7 @@ export default function SECRProject() {
                                 </motion.div>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </section>
         </main>
