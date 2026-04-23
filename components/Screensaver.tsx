@@ -12,11 +12,11 @@ type PlaylistItem =
     | { type: 'youtube'; id: string; src?: never };
 
 const PLAYLIST: PlaylistItem[] = [
-    { type: 'local', src: '/Videos/holistic/master.m3u8' }, 
-    { type: 'youtube', id: 'XdFD4Yjqzzk' }, 
-    { type: 'youtube', id: 'gQc58vGHlvs' }, 
-    { type: 'youtube', id: 'Q0gYQrebGwY' }, 
-    { type: 'youtube', id: '7rC_0x_2CNA' }, 
+    { type: 'local', src: '/Videos/holistic/master.m3u8' }
+    // { type: 'youtube', id: 'XdFD4Yjqzzk' }, 
+    // { type: 'youtube', id: 'gQc58vGHlvs' }, 
+    // { type: 'youtube', id: 'Q0gYQrebGwY' }, 
+    // { type: 'youtube', id: '7rC_0x_2CNA' }, 
 ];
 
 interface ScreensaverProps {
@@ -252,7 +252,7 @@ export default function Screensaver({ idleTimeout = 30000 }: ScreensaverProps) {
                             initial={{ y: 50, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.4, duration: 0.6 }}
-                            className="w-full max-w-5xl mt-4"
+                            className="w-full max-w-7xl mt-0"
                         >
                             <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 bg-black">
                                 {(() => {
