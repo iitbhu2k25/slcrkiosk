@@ -12,7 +12,7 @@ type PlaylistItem =
     | { type: 'youtube'; id: string; src?: never };
 
 const PLAYLIST: PlaylistItem[] = [
-    // { type: 'local', src: '/Videos/slcr/master.m3u8' }, 
+    { type: 'local', src: '/Videos/holistic/master.m3u8' }, 
     { type: 'youtube', id: 'XdFD4Yjqzzk' }, 
     { type: 'youtube', id: 'gQc58vGHlvs' }, 
     { type: 'youtube', id: 'Q0gYQrebGwY' }, 
