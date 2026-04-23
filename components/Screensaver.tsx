@@ -217,14 +217,14 @@ export default function Screensaver({ idleTimeout = 30000 }: ScreensaverProps) {
                     </div>
 
                     {/* Main Content */}
-                    <div className="relative z-10 h-full flex flex-col items-center justify-start pt-8 px-4">
+                    <div className="relative z-10 h-full flex flex-col items-center justify-start pt-0 px-4">
                         
                         {/* Header */}
                         <motion.div
                             initial={{ y: -50, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.2, duration: 0.6 }}
-                            className="flex flex-col items-center gap-2 mb-4"
+                            className="flex flex-col items-center gap-1 mb-1"
                         >
                             <div className="relative w-32 h-32 md:w-40 md:h-40">
                                 <Image
@@ -252,7 +252,7 @@ export default function Screensaver({ idleTimeout = 30000 }: ScreensaverProps) {
                             initial={{ y: 50, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.4, duration: 0.6 }}
-                            className="w-full max-w-7xl mt-0"
+                            className="w-full max-w-6xl mt-0"
                         >
                             <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 bg-black">
                                 {(() => {
